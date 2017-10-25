@@ -265,11 +265,24 @@ function generateChannelArtifacts() {
     echo "Failed to generate orderer genesis block..."
     exit 1
   fi
+  
+  configtxgen -profile FourOrgsOrdererGenesis -outputBlock ./channel-artifacts/fourOrgsGenesis.block
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate orderer genesis block..."
+    exit 1
+  fi
+  
   echo
   echo "#################################################################"
   echo "### Generating channel configuration transaction 'channel.tx' ###"
   echo "#################################################################"
   configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate channel configuration transaction..."
+    exit 1
+  fi
+  
+  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel1.tx -channelID "farmersChannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
