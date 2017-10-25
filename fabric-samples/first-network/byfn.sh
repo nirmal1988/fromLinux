@@ -282,7 +282,7 @@ function generateChannelArtifacts() {
     exit 1
   fi
   
-  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel1.tx -channelID "farmersChannel"
+  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/farmersChannel.tx -channelID "farmersChannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
