@@ -52,7 +52,21 @@ Profiles:
                 - *Org2
                 - *Org3
                 - *Org4
-
+    ThreeOrgsChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org2
+                - *Org3
+                - *Org4
+    OneOrgChannel:
+        Consortium: SampleConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Org4
+              
 ################################################################################
 #
 #   Section: Organizations
