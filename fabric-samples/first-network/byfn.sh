@@ -287,6 +287,18 @@ function generateChannelArtifacts() {
     echo "Failed to generate channel configuration transaction..."
     exit 1
   fi
+  
+  configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/processors.tx -channelID "processors"
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate channel configuration transaction..."
+    exit 1
+  fi
+  
+  configtxgen -profile OneOrgChannel -outputCreateChannelTx ./channel-artifacts/ikea.tx -channelID "ikea"
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate channel configuration transaction..."
+    exit 1
+  fi
 
   echo
   echo "#################################################################"
