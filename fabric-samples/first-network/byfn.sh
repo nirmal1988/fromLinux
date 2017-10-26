@@ -297,6 +297,12 @@ function generateChannelArtifacts() {
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
   fi
+  
+  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/FourOrgsOrg1MSPanchors.tx -channelID "farmers" -asOrg Org1MSP
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate anchor peer update for Org1MSP..."
+    exit 1
+  fi
 
   echo
   echo "#################################################################"
@@ -308,6 +314,28 @@ function generateChannelArtifacts() {
     echo "Failed to generate anchor peer update for Org2MSP..."
     exit 1
   fi
+  
+  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
+  ./channel-artifacts/FourOrgsOrg2MSPanchors.tx -channelID "farmers" -asOrg Org2MSP
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate anchor peer update for Org2MSP..."
+    exit 1
+  fi
+  
+  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
+  ./channel-artifacts/FourOrgsOrg3MSPanchors.tx -channelID "farmers" -asOrg Org3MSP
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate anchor peer update for Org3MSP..."
+    exit 1
+  fi
+  
+  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
+  ./channel-artifacts/FourOrgsOrg4MSPanchors.tx -channelID "farmers" -asOrg Org4MSP
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to generate anchor peer update for Org4MSP..."
+    exit 1
+  fi
+  
   echo
 }
 
