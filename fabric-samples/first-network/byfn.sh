@@ -265,13 +265,6 @@ function generateChannelArtifacts() {
     echo "Failed to generate orderer genesis block..."
     exit 1
   fi
-  
-  configtxgen -profile FourOrgsOrdererGenesis -outputBlock ./channel-artifacts/fourOrgsGenesis.block
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate orderer genesis block..."
-    exit 1
-  fi
-  
   echo
   echo "#################################################################"
   echo "### Generating channel configuration transaction 'channel.tx' ###"
@@ -281,36 +274,12 @@ function generateChannelArtifacts() {
     echo "Failed to generate channel configuration transaction..."
     exit 1
   fi
-  
-  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/farmers.tx -channelID "farmers"
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate channel configuration transaction..."
-    exit 1
-  fi
-  
-  #configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/processors.tx -channelID "processors"
-  #if [ "$?" -ne 0 ]; then
-  #  echo "Failed to generate channel configuration transaction..."
-  #  exit 1
-  #fi
-  
-  #configtxgen -profile OneOrgChannel -outputCreateChannelTx ./channel-artifacts/ikea.tx -channelID "ikea"
-  #if [ "$?" -ne 0 ]; then
-  #  echo "Failed to generate channel configuration transaction..."
-  #  exit 1
-  #fi
 
   echo
   echo "#################################################################"
   echo "#######    Generating anchor peer update for Org1MSP   ##########"
   echo "#################################################################"
   configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org1MSP..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/FourOrgsOrg1MSPanchors.tx -channelID "farmers" -asOrg Org1MSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
@@ -326,28 +295,6 @@ function generateChannelArtifacts() {
     echo "Failed to generate anchor peer update for Org2MSP..."
     exit 1
   fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg2MSPanchors.tx -channelID "farmers" -asOrg Org2MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg3MSPanchors.tx -channelID "farmers" -asOrg Org3MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org3MSP..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg4MSPanchors.tx -channelID "farmers" -asOrg Org4MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org4MSP..."
-    exit 1
-  fi
-  
   echo
 }
 
@@ -362,7 +309,7 @@ CLI_DELAY=3
 # channel name defaults to "mychannel"
 CHANNEL_NAME="mychannel"
 # use this as the default docker-compose yaml definition
-COMPOSE_FILE=docker-compose-cli.yaml
+COMPOSE_FILE=docker-compose-one.yaml
 #
 COMPOSE_FILE_COUCH=docker-compose-couch.yaml
 
