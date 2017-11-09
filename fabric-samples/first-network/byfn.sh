@@ -282,13 +282,13 @@ function generateChannelArtifacts() {
     exit 1
   fi
   
-  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/farmerschannel.tx -channelID "farmerschannel"
+  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/abattoirchannel.tx -channelID "abattoirchannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
   fi
   
-  configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/processorschannel.tx -channelID "processorschannel"
+  configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/processorchannel.tx -channelID "processorchannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
@@ -310,7 +310,7 @@ function generateChannelArtifacts() {
     exit 1
   fi
   
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/FourOrgsOrg1MSPanchors.tx -channelID "farmerschannel" -asOrg Org1MSP
+  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/FourOrgsOrg1MSPanchors.tx -channelID "abattoirchannel" -asOrg Org1MSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
@@ -328,21 +328,21 @@ function generateChannelArtifacts() {
   fi
   
   configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg2MSPanchors.tx -channelID "farmerschannel" -asOrg Org2MSP
+  ./channel-artifacts/FourOrgsOrg2MSPanchors.tx -channelID "abattoirchannel" -asOrg Org2MSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org2MSP..."
     exit 1
   fi
   
   configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg3MSPanchors.tx -channelID "farmerschannel" -asOrg Org3MSP
+  ./channel-artifacts/FourOrgsOrg3MSPanchors.tx -channelID "abattoirchannel" -asOrg Org3MSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org3MSP..."
     exit 1
   fi
   
   configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg4MSPanchors.tx -channelID "farmerschannel" -asOrg Org4MSP
+  ./channel-artifacts/FourOrgsOrg4MSPanchors.tx -channelID "abattoirchannel" -asOrg Org4MSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org4MSP..."
     exit 1
