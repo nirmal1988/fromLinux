@@ -260,7 +260,7 @@ function generateChannelArtifacts() {
   echo "##########################################################"
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
-  configtxgen -profile SyngentaGenesis -outputBlock ./channel-artifacts/syngentaGenesis.block
+  configtxgen -profile SyngentaGenesis -outputBlock ./channel-artifacts/syngentagenesis.block
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate orderer genesis block..."
     exit 1
