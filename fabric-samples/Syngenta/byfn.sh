@@ -304,7 +304,7 @@ function generateChannelArtifacts() {
     exit 1
   fi
   
-  configtxgen -profile ProcurementChannel -outputAnchorPeersUpdate ./channel-artifacts/bankMSPanchors.tx -channelID "procurementChannel" -asOrg BankOrgMSP
+  configtxgen -profile FinanceChannel -outputAnchorPeersUpdate ./channel-artifacts/bankMSPanchors.tx -channelID "financeChannel" -asOrg BankOrgMSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
