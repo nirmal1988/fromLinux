@@ -14,7 +14,7 @@
 ################################################################################
 Profiles:
 
-     SyngentaGenesis:
+    SyngentaGenesis:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -25,7 +25,6 @@ Profiles:
                     - *SyngentaOrg
                     - *VendorOrg
                     - *BankOrg                    
-                
     ProcurementChannel:
         Consortium: SampleConsortium
         Application:
@@ -33,7 +32,6 @@ Profiles:
             Organizations:
                 - *SyngentaOrg
                 - *VendorOrg
-    
     FinanceChannel:
         Consortium: SampleConsortium
         Application:
