@@ -11,7 +11,7 @@ OrdererOrgs:
   # Orderer
   # ---------------------------------------------------------------------------
   - Name: Orderer
-    Domain: example.com
+    Domain: syngenta.com
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
@@ -24,8 +24,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org1
   # ---------------------------------------------------------------------------
-  - Name: Org1
-    Domain: org1.example.com
+  - Name: SyngentaOrg
+    Domain: syngentaOrg.syngenta.com
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -73,8 +73,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
-  - Name: Org2
-    Domain: org2.example.com
+  - Name: VendorOrg
+    Domain: vendorOrg.syngenta.com
     Template:
       Count: 1
     Users:
@@ -82,17 +82,8 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   # Org3: See "Org1" for full specification
   # ---------------------------------------------------------------------------
-  - Name: Org3
-    Domain: org3.example.com
-    Template:
-      Count: 1
-    Users:
-      Count: 1
-  # ---------------------------------------------------------------------------
-  # Org4: See "Org1" for full specification
-  # ---------------------------------------------------------------------------    
-  - Name: Org4
-    Domain: org4.example.com
+  - Name: BankOrg
+    Domain: bankOrg.syngenta.com
     Template:
       Count: 1
     Users:
