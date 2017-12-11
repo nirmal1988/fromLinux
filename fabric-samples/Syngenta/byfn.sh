@@ -159,11 +159,11 @@ function replacePrivateKey () {
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
   CURRENT_DIR=$PWD
-  cd crypto-config/peerOrganizations/org1.example.com/ca/
+  cd crypto-config/peerOrganizations/syngentaOrg.syngenta.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA1_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
-  cd crypto-config/peerOrganizations/org2.example.com/ca/
+  cd crypto-config/peerOrganizations/vendorOrg.syngenta.com/ca/
   PRIV_KEY=$(ls *_sk)
   cd "$CURRENT_DIR"
   sed $OPTS "s/CA2_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
@@ -260,13 +260,7 @@ function generateChannelArtifacts() {
   echo "##########################################################"
   # Note: For some unknown reason (at least for now) the block file can't be
   # named orderer.genesis.block or the orderer will fail to launch!
-  configtxgen -profile TwoOrgsOrdererGenesis -outputBlock ./channel-artifacts/genesis.block
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate orderer genesis block..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsOrdererGenesis -outputBlock ./channel-artifacts/fourorgsgenesis.block
+  configtxgen -profile SyngentaGenesis -outputBlock ./channel-artifacts/syngentaGenesis.block
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate orderer genesis block..."
     exit 1
@@ -276,25 +270,14 @@ function generateChannelArtifacts() {
   echo "#################################################################"
   echo "### Generating channel configuration transaction 'channel.tx' ###"
   echo "#################################################################"
-  configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+  
+  configtxgen -profile ProcurementChannel -outputCreateChannelTx ./channel-artifacts/procurementChannel.tx -channelID "procurementChannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
   fi
   
-  configtxgen -profile FourOrgsChannel -outputCreateChannelTx ./channel-artifacts/abattoirchannel.tx -channelID "abattoirchannel"
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate channel configuration transaction..."
-    exit 1
-  fi
-  
-  configtxgen -profile ThreeOrgsChannel -outputCreateChannelTx ./channel-artifacts/processorchannel.tx -channelID "processorchannel"
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate channel configuration transaction..."
-    exit 1
-  fi
-  
-  configtxgen -profile OneOrgChannel -outputCreateChannelTx ./channel-artifacts/ikeachannel.tx -channelID "ikeachannel"
+  configtxgen -profile FinanceChannel -outputCreateChannelTx ./channel-artifacts/financeChannel.tx -channelID "financeChannel"
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate channel configuration transaction..."
     exit 1
@@ -302,49 +285,24 @@ function generateChannelArtifacts() {
 
   echo
   echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org1MSP   ##########"
+  echo "#######    Generating anchor peer update for SyngentaOrgMSP   ##########"
   echo "#################################################################"
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+  
+  configtxgen -profile ProcurementChannel -outputAnchorPeersUpdate ./channel-artifacts/syngentaMSPanchors.tx -channelID "procurementChannel" -asOrg SyngentaOrgMSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
   fi
   
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/FourOrgsOrg1MSPanchors.tx -channelID "abattoirchannel" -asOrg Org1MSP
+  configtxgen -profile ProcurementChannel -outputAnchorPeersUpdate ./channel-artifacts/vendorMSPanchors.tx -channelID "procurementChannel" -asOrg VendorOrgMSP
   if [ "$?" -ne 0 ]; then
     echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
   fi
-
-  echo
-  echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org2MSP   ##########"
-  echo "#################################################################"
-  configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/Org2MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org2MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
-    exit 1
-  fi
   
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg2MSPanchors.tx -channelID "abattoirchannel" -asOrg Org2MSP
+  configtxgen -profile ProcurementChannel -outputAnchorPeersUpdate ./channel-artifacts/bankMSPanchors.tx -channelID "procurementChannel" -asOrg BankOrgMSP
   if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg3MSPanchors.tx -channelID "abattoirchannel" -asOrg Org3MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org3MSP..."
-    exit 1
-  fi
-  
-  configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
-  ./channel-artifacts/FourOrgsOrg4MSPanchors.tx -channelID "abattoirchannel" -asOrg Org4MSP
-  if [ "$?" -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org4MSP..."
+    echo "Failed to generate anchor peer update for Org1MSP..."
     exit 1
   fi
   echo
