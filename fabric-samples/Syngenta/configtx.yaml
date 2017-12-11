@@ -14,7 +14,7 @@
 ################################################################################
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+     SyngentaGenesis:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -22,50 +22,25 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Org1
-                    - *Org2
-    FourOrgsOrdererGenesis:
-        Orderer:
-            <<: *OrdererDefaults
-            Organizations:
-                - *OrdererOrg
-        Consortiums:
-            SampleConsortium:
-                Organizations:
-                    - *Org1
-                    - *Org2
-                    - *Org3
-                    - *Org4
-    TwoOrgsChannel:
+                    - *SyngentaOrg
+                    - *VendorOrg
+                    - *BankOrg                    
+                
+    SyngentaVendorChannel:
         Consortium: SampleConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
-    FourOrgsChannel:
+                - *SyngentaOrg
+                - *VendorOrg
+    
+    SyngentaBankChannel:
         Consortium: SampleConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
-                - *Org3
-                - *Org4
-    ThreeOrgsChannel:
-        Consortium: SampleConsortium
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:                
-                - *Org2
-                - *Org3
-                - *Org4
-    OneOrgChannel:
-        Consortium: SampleConsortium
-        Application:
-            <<: *ApplicationDefaults
-            Organizations:                
-                - *Org4
+                - *SyngentaOrg
+                - *BankOrg
 
 ################################################################################
 #
@@ -88,74 +63,57 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/example.com/msp
+        MSPDir: crypto-config/ordererOrganizations/syngenta.com/msp
 
-    - &Org1
+    - &SyngentaOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org1MSP
+        Name: SyngentaOrgMSP
 
         # ID to load the MSP definition as
-        ID: Org1MSP
+        ID: SyngentaOrgMSP
 
-        MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/syngentaOrg.syngenta.com/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org1.example.com
+            - Host: peer0.syngentaOrg.syngenta.com
               Port: 7051
 
-    - &Org2
+    - &VendorOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org2MSP
+        Name: VendorOrgMSP
 
         # ID to load the MSP definition as
-        ID: Org2MSP
+        ID: VendorOrgMSP
 
-        MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/vendorOrg.syngenta.com/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org2.example.com
-              Port: 7051
-              
-    - &Org3
-        # DefaultOrg defines the organization which is used in the sampleconfig
-        # of the fabric.git development environment
-        Name: Org3MSP
-
-        # ID to load the MSP definition as
-        ID: Org3MSP
-
-        MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
-
-        AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
-            - Host: peer0.org3.example.com
+            - Host: peer0.vendorOrg.syngenta.com
               Port: 7051
               
-    - &Org4
+    - &BankOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: Org4MSP
+        Name: BankOrgMSP
 
         # ID to load the MSP definition as
-        ID: Org4MSP
+        ID: BankOrgMSP
 
-        MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/bankOrg.syngenta.com/msp
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.org4.example.com
+            - Host: peer0.bankOrg.syngenta.com
               Port: 7051
 
 ################################################################################
@@ -173,7 +131,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - orderer.example.com:7050
+        - orderer.syngenta.com:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
